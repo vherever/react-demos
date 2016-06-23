@@ -19607,6 +19607,31 @@ module.exports = require('./lib/React');
 // shim for using process in browser
 
 var process = module.exports = {};
+
+// cached from whatever global is present so that test runners that stub it
+// don't break things.  But we need to wrap it in a try catch in case it is
+// wrapped in strict mode code which doesn't define any globals.  It's inside a
+// function because try/catches deoptimize in certain engines.
+
+var cachedSetTimeout;
+var cachedClearTimeout;
+
+(function () {
+  try {
+    cachedSetTimeout = setTimeout;
+  } catch (e) {
+    cachedSetTimeout = function () {
+      throw new Error('setTimeout is not defined');
+    }
+  }
+  try {
+    cachedClearTimeout = clearTimeout;
+  } catch (e) {
+    cachedClearTimeout = function () {
+      throw new Error('clearTimeout is not defined');
+    }
+  }
+} ())
 var queue = [];
 var draining = false;
 var currentQueue;
@@ -19631,7 +19656,7 @@ function drainQueue() {
     if (draining) {
         return;
     }
-    var timeout = setTimeout(cleanUpNextTick);
+    var timeout = cachedSetTimeout(cleanUpNextTick);
     draining = true;
 
     var len = queue.length;
@@ -19648,7 +19673,7 @@ function drainQueue() {
     }
     currentQueue = null;
     draining = false;
-    clearTimeout(timeout);
+    cachedClearTimeout(timeout);
 }
 
 process.nextTick = function (fun) {
@@ -19660,7 +19685,7 @@ process.nextTick = function (fun) {
     }
     queue.push(new Item(fun, args));
     if (queue.length === 1 && !draining) {
-        setTimeout(drainQueue, 0);
+        cachedSetTimeout(drainQueue, 0);
     }
 };
 
@@ -19709,6 +19734,9 @@ var EmailField = React.createClass({
     getInitialState: function () {
         return { valid: true, value: "" };
     },
+    clear: function () {
+        this.setState({ valid: true, value: "" });
+    },
     onChange: function (e) {
         var val = e.target.value;
         if (!validator.validate(val)) {
@@ -19731,9 +19759,83 @@ module.exports = EmailField;
 
 },{"email-validator":1,"react":167}],170:[function(require,module,exports){
 var React = require('react');
+var EmailField = require('./EmailField.jsx');
+var NameField = require('./NameField.jsx');
+
+var LeadCapture = React.createClass({
+    displayName: 'LeadCapture',
+
+    onSubmit: function (e) {
+        if (!this.refs.fieldEmail.state.valid) {
+            alert("Email is required");
+        } else {
+            var httpRequestBody = {
+                email: this.refs.fieldEmail.state.value,
+                firstName: this.refs.fieldName.state.value
+            };
+
+            this.refs.fieldEmail.clear();
+            this.refs.fieldName.clear();
+        }
+    },
+    render: function () {
+        return React.createElement(
+            'div',
+            { className: 'col-sm-3' },
+            React.createElement(
+                'div',
+                { className: 'panel panel-default' },
+                React.createElement(
+                    'div',
+                    { className: 'panel-body' },
+                    React.createElement(NameField, { type: 'First', ref: 'fieldName' }),
+                    React.createElement('br', null),
+                    React.createElement(EmailField, { ref: 'fieldEmail' }),
+                    React.createElement(
+                        'button',
+                        { className: 'btn btn-primary', onClick: this.onSubmit },
+                        'Submit'
+                    )
+                )
+            )
+        );
+    }
+});
+
+module.exports = LeadCapture;
+
+},{"./EmailField.jsx":169,"./NameField.jsx":171,"react":167}],171:[function(require,module,exports){
+var React = require('react');
+
+var NameField = React.createClass({
+    displayName: "NameField",
+
+    getInitialState: function () {
+        return { value: "" };
+    },
+    onChange: function (e) {
+        this.setState({ value: e.target.value });
+    },
+    clear: function () {
+        this.setState({ value: "" });
+    },
+    render: function () {
+        return React.createElement("input", {
+            className: "form-control",
+            placeholder: this.props.type + " Name",
+            onChange: this.onChange,
+            value: this.state.value
+        });
+    }
+});
+
+module.exports = NameField;
+
+},{"react":167}],172:[function(require,module,exports){
+var React = require('react');
 var ReactDOM = require('react-dom');
-var EmailField = require('./components/EmailField.jsx');
+var LeadCapture = require('./components/LeadCapture.jsx');
 
-ReactDOM.render(React.createElement(EmailField, null), document.getElementById('content'));
+ReactDOM.render(React.createElement(LeadCapture, null), document.getElementById('content'));
 
-},{"./components/EmailField.jsx":169,"react":167,"react-dom":2}]},{},[170]);
+},{"./components/LeadCapture.jsx":170,"react":167,"react-dom":2}]},{},[172]);
