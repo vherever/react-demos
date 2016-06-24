@@ -1,7 +1,57 @@
 var React = require('react');
 var Button = require('./Button.jsx');
+var CalculationsField = require('./CalculationsField.jsx');
 
 var Main = React.createClass({
+    onClickButton1: function(){
+        console.log('1');
+    },
+    onClickButton2: function(){
+        console.log('2');
+    },
+    onClickButton3: function(){
+        console.log('3');
+    },
+    onClickButton4: function(){
+        console.log('4');
+    },
+    onClickButton5: function(){
+        console.log('5');
+    },
+    onClickButton6: function(){
+        console.log('6');
+    },
+    onClickButton7: function(){
+        console.log('7');
+    },
+    onClickButton8: function(){
+        console.log('8');
+    },
+    onClickButton9: function(){
+        console.log('9');
+    },
+    onClickButton0: function(){
+        console.log('0');
+    },
+
+    onClickButtonSum: function(){
+        console.log('+');
+    },
+    onClickButtonSubtract: function(){
+        console.log('-');
+    },
+    onClickButtonMultiple: function(){
+        console.log('X');
+    },
+    onClickButtonDivide: function(){
+        console.log('/');
+    },
+    onClickButtonEqual: function(){
+        console.log('=');
+    },
+    onClickButtonClear: function(){
+        console.log('C');
+    },
     render: function () {
         var operationStyle = {
             background: '#3498db',
@@ -23,35 +73,41 @@ var Main = React.createClass({
             width: 70,
             height: 70
         };
-
         return (
             <div className="container">
-                <div className="row">
-                    <Button label="1" />
-                    <Button label="2" />
-                    <Button label="3" />
-                    <Button label="+" bStyle={operationStyle} />
-                </div>
+                <div className="col-sm-4">
+                <div className="panel panel-default">
+                    <CalculationsField />
+                    <div className="panel-body">
+                        <div className="row">
+                            <Button label="1" onButtonClicked={this.onClickButton1} />
+                            <Button label="2" onButtonClicked={this.onClickButton2} />
+                            <Button label="3" onButtonClicked={this.onClickButton3} />
+                            <Button label="+" onButtonClicked={this.onClickButtonSum} bStyle={operationStyle} />
+                        </div>
 
-                <div className="row">
-                    <Button label="4" />
-                    <Button label="5" />
-                    <Button label="6" />
-                    <Button label="-" bStyle={operationStyle} />
-                </div>
+                        <div className="row">
+                            <Button label="4" onButtonClicked={this.onClickButton4} />
+                            <Button label="5" onButtonClicked={this.onClickButton5} />
+                            <Button label="6" onButtonClicked={this.onClickButton6} />
+                            <Button label="-" onButtonClicked={this.onClickButtonSubtract} bStyle={operationStyle} />
+                        </div>
 
-                <div className="row">
-                    <Button label="7" />
-                    <Button label="8" />
-                    <Button label="9" />
-                    <Button label="X" bStyle={operationStyle} />
-                </div>
+                        <div className="row">
+                            <Button label="7" onButtonClicked={this.onClickButton7} />
+                            <Button label="8" onButtonClicked={this.onClickButton8} />
+                            <Button label="9" onButtonClicked={this.onClickButton9} />
+                            <Button label="X" onButtonClicked={this.onClickButtonMultiple} bStyle={operationStyle} />
+                        </div>
 
-                <div className="row">
-                    <Button label="C" bStyle={clearStyle} />
-                    <Button label="0" />
-                    <Button label="=" bStyle={equalStyle} />
-                    <Button label="/" bStyle={operationStyle} />
+                        <div className="row">
+                            <Button label="C" onButtonClicked={this.onClickButtonClear} bStyle={clearStyle} />
+                            <Button label="0" onButtonClicked={this.onClickButton0} />
+                            <Button label="=" onButtonClicked={this.onClickButtonEqual} bStyle={equalStyle} />
+                            <Button label="/" onButtonClicked={this.onClickButtonDivide} bStyle={operationStyle} />
+                        </div>
+                    </div>
+                </div>
                 </div>
             </div>
         );

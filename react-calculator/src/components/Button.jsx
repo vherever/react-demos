@@ -8,8 +8,9 @@ var Button = React.createClass({
             width: 70,
             height: 70
         };
+
         return (
-            <button style={bStyle} type="button" className="btn btn-default btn-lg">{this.props.label}</button>
+            <button onClick={this.props.onButtonClicked} style={bStyle} type="button" className="btn btn-default btn-lg">{this.props.label}</button>
         );
     }
 });

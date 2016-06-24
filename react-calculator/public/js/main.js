@@ -19705,9 +19705,10 @@ var Button = React.createClass({
             width: 70,
             height: 70
         };
+
         return React.createElement(
             'button',
-            { style: bStyle, type: 'button', className: 'btn btn-default btn-lg' },
+            { onClick: this.props.onButtonClicked, style: bStyle, type: 'button', className: 'btn btn-default btn-lg' },
             this.props.label
         );
     }
@@ -19716,14 +19717,79 @@ var Button = React.createClass({
 module.exports = Button;
 
 },{"react":166}],169:[function(require,module,exports){
+"use strict";
+
+var React = require('react');
+
+var CalculationsField = React.createClass({
+    displayName: "CalculationsField",
+
+    render: function render() {
+        return React.createElement("div", { className: "panel-heading" });
+    }
+});
+
+module.exports = CalculationsField;
+
+},{"react":166}],170:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
 var Button = require('./Button.jsx');
+var CalculationsField = require('./CalculationsField.jsx');
 
 var Main = React.createClass({
     displayName: 'Main',
 
+    onClickButton1: function onClickButton1() {
+        console.log('1');
+    },
+    onClickButton2: function onClickButton2() {
+        console.log('2');
+    },
+    onClickButton3: function onClickButton3() {
+        console.log('3');
+    },
+    onClickButton4: function onClickButton4() {
+        console.log('4');
+    },
+    onClickButton5: function onClickButton5() {
+        console.log('5');
+    },
+    onClickButton6: function onClickButton6() {
+        console.log('6');
+    },
+    onClickButton7: function onClickButton7() {
+        console.log('7');
+    },
+    onClickButton8: function onClickButton8() {
+        console.log('8');
+    },
+    onClickButton9: function onClickButton9() {
+        console.log('9');
+    },
+    onClickButton0: function onClickButton0() {
+        console.log('0');
+    },
+
+    onClickButtonSum: function onClickButtonSum() {
+        console.log('+');
+    },
+    onClickButtonSubtract: function onClickButtonSubtract() {
+        console.log('-');
+    },
+    onClickButtonMultiple: function onClickButtonMultiple() {
+        console.log('X');
+    },
+    onClickButtonDivide: function onClickButtonDivide() {
+        console.log('/');
+    },
+    onClickButtonEqual: function onClickButtonEqual() {
+        console.log('=');
+    },
+    onClickButtonClear: function onClickButtonClear() {
+        console.log('C');
+    },
     render: function render() {
         var operationStyle = {
             background: '#3498db',
@@ -19745,41 +19811,53 @@ var Main = React.createClass({
             width: 70,
             height: 70
         };
-
         return React.createElement(
             'div',
             { className: 'container' },
             React.createElement(
                 'div',
-                { className: 'row' },
-                React.createElement(Button, { label: '1' }),
-                React.createElement(Button, { label: '2' }),
-                React.createElement(Button, { label: '3' }),
-                React.createElement(Button, { label: '+', bStyle: operationStyle })
-            ),
-            React.createElement(
-                'div',
-                { className: 'row' },
-                React.createElement(Button, { label: '4' }),
-                React.createElement(Button, { label: '5' }),
-                React.createElement(Button, { label: '6' }),
-                React.createElement(Button, { label: '-', bStyle: operationStyle })
-            ),
-            React.createElement(
-                'div',
-                { className: 'row' },
-                React.createElement(Button, { label: '7' }),
-                React.createElement(Button, { label: '8' }),
-                React.createElement(Button, { label: '9' }),
-                React.createElement(Button, { label: 'X', bStyle: operationStyle })
-            ),
-            React.createElement(
-                'div',
-                { className: 'row' },
-                React.createElement(Button, { label: 'C', bStyle: clearStyle }),
-                React.createElement(Button, { label: '0' }),
-                React.createElement(Button, { label: '=', bStyle: equalStyle }),
-                React.createElement(Button, { label: '/', bStyle: operationStyle })
+                { className: 'col-sm-4' },
+                React.createElement(
+                    'div',
+                    { className: 'panel panel-default' },
+                    React.createElement(CalculationsField, null),
+                    React.createElement(
+                        'div',
+                        { className: 'panel-body' },
+                        React.createElement(
+                            'div',
+                            { className: 'row' },
+                            React.createElement(Button, { label: '1', onButtonClicked: this.onClickButton1 }),
+                            React.createElement(Button, { label: '2', onButtonClicked: this.onClickButton2 }),
+                            React.createElement(Button, { label: '3', onButtonClicked: this.onClickButton3 }),
+                            React.createElement(Button, { label: '+', onButtonClicked: this.onClickButtonSum, bStyle: operationStyle })
+                        ),
+                        React.createElement(
+                            'div',
+                            { className: 'row' },
+                            React.createElement(Button, { label: '4', onButtonClicked: this.onClickButton4 }),
+                            React.createElement(Button, { label: '5', onButtonClicked: this.onClickButton5 }),
+                            React.createElement(Button, { label: '6', onButtonClicked: this.onClickButton6 }),
+                            React.createElement(Button, { label: '-', onButtonClicked: this.onClickButtonSubtract, bStyle: operationStyle })
+                        ),
+                        React.createElement(
+                            'div',
+                            { className: 'row' },
+                            React.createElement(Button, { label: '7', onButtonClicked: this.onClickButton7 }),
+                            React.createElement(Button, { label: '8', onButtonClicked: this.onClickButton8 }),
+                            React.createElement(Button, { label: '9', onButtonClicked: this.onClickButton9 }),
+                            React.createElement(Button, { label: 'X', onButtonClicked: this.onClickButtonMultiple, bStyle: operationStyle })
+                        ),
+                        React.createElement(
+                            'div',
+                            { className: 'row' },
+                            React.createElement(Button, { label: 'C', onButtonClicked: this.onClickButtonClear, bStyle: clearStyle }),
+                            React.createElement(Button, { label: '0', onButtonClicked: this.onClickButton0 }),
+                            React.createElement(Button, { label: '=', onButtonClicked: this.onClickButtonEqual, bStyle: equalStyle }),
+                            React.createElement(Button, { label: '/', onButtonClicked: this.onClickButtonDivide, bStyle: operationStyle })
+                        )
+                    )
+                )
             )
         );
     }
@@ -19787,7 +19865,7 @@ var Main = React.createClass({
 
 module.exports = Main;
 
-},{"./Button.jsx":168,"react":166}],170:[function(require,module,exports){
+},{"./Button.jsx":168,"./CalculationsField.jsx":169,"react":166}],171:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
@@ -19796,4 +19874,4 @@ var Main = require('./components/Main.jsx');
 
 ReactDOM.render(React.createElement(Main, null), document.getElementById('content'));
 
-},{"./components/Main.jsx":169,"react":166,"react-dom":1}]},{},[170]);
+},{"./components/Main.jsx":170,"react":166,"react-dom":1}]},{},[171]);
