@@ -3,11 +3,18 @@ var Button = require('./Button.jsx');
 var CalculationsField = require('./CalculationsField.jsx');
 
 var Main = React.createClass({
+    getInitialState: function () {
+        return {message: '0'}
+    },
     onClickButton1: function(){
         console.log('1');
+        var message = '1';
+        this.setState({message: message});
     },
     onClickButton2: function(){
         console.log('2');
+        var message = '2';
+        this.setState({message: message});
     },
     onClickButton3: function(){
         console.log('3');
@@ -77,7 +84,7 @@ var Main = React.createClass({
             <div className="container">
                 <div className="col-sm-4">
                 <div className="panel panel-default">
-                    <CalculationsField />
+                    <CalculationsField message={this.state.message} />
                     <div className="panel-body">
                         <div className="row">
                             <Button label="1" onButtonClicked={this.onClickButton1} />
