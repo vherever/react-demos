@@ -19725,7 +19725,15 @@ var CalculationsField = React.createClass({
     displayName: "CalculationsField",
 
     render: function render() {
-        return React.createElement("div", { className: "panel-heading" });
+        return React.createElement(
+            "div",
+            { className: "panel-heading" },
+            React.createElement(
+                "p",
+                null,
+                this.props.message
+            )
+        );
     }
 });
 
@@ -19741,11 +19749,18 @@ var CalculationsField = require('./CalculationsField.jsx');
 var Main = React.createClass({
     displayName: 'Main',
 
+    getInitialState: function getInitialState() {
+        return { message: '0' };
+    },
     onClickButton1: function onClickButton1() {
         console.log('1');
+        var message = '1';
+        this.setState({ message: message });
     },
     onClickButton2: function onClickButton2() {
         console.log('2');
+        var message = '2';
+        this.setState({ message: message });
     },
     onClickButton3: function onClickButton3() {
         console.log('3');
@@ -19820,7 +19835,7 @@ var Main = React.createClass({
                 React.createElement(
                     'div',
                     { className: 'panel panel-default' },
-                    React.createElement(CalculationsField, null),
+                    React.createElement(CalculationsField, { message: this.state.message }),
                     React.createElement(
                         'div',
                         { className: 'panel-body' },
