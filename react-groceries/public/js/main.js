@@ -19667,118 +19667,90 @@ process.umask = function() { return 0; };
 
 },{}],168:[function(require,module,exports){
 var React = require('react');
-var ContactView = require('./ContactView.jsx');
+var List = require('./List.jsx');
 
-var contacts = [{ key: 1, name: "John Doe", email: "johndoe@yahoo.com", description: "Front-end Developer" }, { key: 2, name: "Vladimir", email: "vladimir@test.com" }, { key: 3, name: "Jessy" }];
+var FilteredList = React.createClass({
+    displayName: 'FilteredList',
 
-var newContact = { name: "", email: "", description: "" };
-
-var App = React.createClass({
-    displayName: 'App',
-
+    getInitialState: function () {
+        return {
+            initialItems: ["Apple", "Banana", "Bilberry", "Cherry", "Lemon", "Orange", "Pear", "Raspberry", "Pineapple", "Strawberry", "WaterMelon"],
+            items: []
+        };
+    },
+    componentWillMount: function () {
+        this.setState({ items: this.state.initialItems });
+    },
+    filteredList: function (e) {
+        var updatedList = this.state.initialItems;
+        updatedList = updatedList.filter(function (item) {
+            return item.toLowerCase().search(e.target.value.toLowerCase()) !== -1;
+        });
+        this.setState({ items: updatedList });
+    },
     render: function () {
-        return React.createElement(ContactView, { contacts: contacts, newContact: newContact });
+        return React.createElement(
+            'div',
+            { className: 'filter-list' },
+            React.createElement('input', { type: 'text', placeholder: 'Search', onChange: this.filteredList }),
+            React.createElement(List, { items: this.state.items })
+        );
     }
 });
 
-module.exports = App;
+module.exports = FilteredList;
 
-},{"./ContactView.jsx":171,"react":166}],169:[function(require,module,exports){
+},{"./List.jsx":169,"react":166}],169:[function(require,module,exports){
 var React = require('react');
 
-var ContactForm = React.createClass({
-    displayName: 'ContactForm',
-
-    propTypes: {
-        value: React.PropTypes.object.isRequired,
-        onChange: React.PropTypes.func.isRequired
-    },
+var List = React.createClass({
+    displayName: "List",
 
     render: function () {
-        var oldContact = this.props.value;
-        var onChange = this.props.onChange;
-
-        return React.createElement('form', { className: 'ContactForm' }, React.createElement('input', {
-            type: 'text',
-            placeholder: 'Name (required)',
-            value: this.props.value.name,
-            onChange: function (e) {
-                onChange(Object.assign({}, oldContact, { name: e.target.value }));
-            }
-        }), React.createElement('input', {
-            type: 'email',
-            placeholder: 'Email',
-            value: this.props.value.email,
-            onChange: function (e) {
-                onChange(Object.assign({}, oldContact, { email: e.target.value }));
-            }
-        }), React.createElement('textarea', {
-            placeholder: 'Description',
-            value: this.props.value.description,
-            onChange: function (e) {
-                onChange(Object.assign({}, oldContact, { description: e.target.value }));
-            }
-        }), React.createElement('button', { type: 'submit' }, "Add Contact"));
+        return React.createElement(
+            "ul",
+            null,
+            this.props.items.map(function (item) {
+                return React.createElement(
+                    "li",
+                    { key: item },
+                    React.createElement("img", { src: "../public/images/" + item + ".png" }),
+                    React.createElement(
+                        "div",
+                        null,
+                        item
+                    )
+                );
+            })
+        );
     }
 });
 
-module.exports = ContactForm;
+module.exports = List;
 
 },{"react":166}],170:[function(require,module,exports){
 var React = require('react');
+var FilteredList = require('./FilteredList.jsx');
 
-var ContactItem = React.createClass({
-    displayName: 'ContactItem',
-
-    propTypes: {
-        name: React.PropTypes.string.isRequired,
-        email: React.PropTypes.string.isRequired,
-        description: React.PropTypes.string
-    },
+var Main = React.createClass({
+    displayName: 'Main',
 
     render: function () {
-        return React.createElement('li', { className: 'ContactItem' }, React.createElement('h2', { className: 'ContactItem-name' }, this.props.name), React.createElement('a', { className: 'ContactItem-email', href: 'mailto:' + this.props.email }, this.props.email), React.createElement('div', { className: 'ContactItem-description' }, this.props.description));
+        return React.createElement(
+            'div',
+            null,
+            React.createElement(FilteredList, null)
+        );
     }
 });
 
-module.exports = ContactItem;
+module.exports = Main;
 
-},{"react":166}],171:[function(require,module,exports){
-var React = require('react');
-var ContactForm = require('./ContactForm.jsx');
-var ContactItem = require('./ContactItem.jsx');
-
-var ContactView = React.createClass({
-    displayName: 'ContactView',
-
-    propTypes: {
-        contacts: React.PropTypes.array.isRequired,
-        newContact: React.PropTypes.object.isRequired
-    },
-
-    render: function () {
-        var contactItemElements = this.props.contacts.filter(function (contact) {
-            return contact.email;
-        }).map(function (contact) {
-            return React.createElement(ContactItem, contact);
-        });
-
-        return React.createElement('div', { className: 'ContactView' }, React.createElement('h1', { className: 'ContactView-title' }, "Contacts"), React.createElement('ul', { className: 'ContactView-list' }, contactItemElements), React.createElement(ContactForm, {
-            value: this.props.newContact,
-            onChange: function (contact) {
-                console.log(contact);
-            }
-        }));
-    }
-});
-
-module.exports = ContactView;
-
-},{"./ContactForm.jsx":169,"./ContactItem.jsx":170,"react":166}],172:[function(require,module,exports){
+},{"./FilteredList.jsx":168,"react":166}],171:[function(require,module,exports){
 var React = require('react');
 var ReactDOM = require('react-dom');
-var App = require('./components/App.jsx');
+var Main = require('./components/Main.jsx');
 
-ReactDOM.render(React.createElement(App, null), document.getElementById('content'));
+ReactDOM.render(React.createElement(Main, null), document.getElementById('content'));
 
-},{"./components/App.jsx":168,"react":166,"react-dom":1}]},{},[172]);
+},{"./components/Main.jsx":170,"react":166,"react-dom":1}]},{},[171]);

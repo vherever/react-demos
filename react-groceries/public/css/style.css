@@ -1,0 +1,50 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto);
+* {
+    box-sizing: border-box;
+}
+
+body {
+    padding: 20px;
+}
+
+.filter-list {
+    margin: auto;
+    width: 300px;
+    border-radius: 5px;
+    border: 1px solid #196090;
+    background: #241445;
+}
+.filter-list input {
+    width: 100%;
+    display: block;
+    padding: 10px;
+    border-radius: 5px 5px 0px 0px;
+    border: 0;
+    font-size: 24px;
+}
+.filter-list input:focus {
+    outline: none;
+}
+.filter-list ul {
+    margin: 0;
+    padding: 0;
+}
+.filter-list ul li {
+    font-family: Roboto;
+    list-style-type: none;
+    margin: 0;
+    padding: 10px 20px;
+    border-top: 1px solid #ffffff;
+    display: table;
+    width: 100%;
+    color: #ffffff;
+}
+.filter-list ul li:hover {
+    background: #33186b;
+}
+
+ul li div {
+    display: table-cell;
+    vertical-align: top;
+    text-align: right;
+}
